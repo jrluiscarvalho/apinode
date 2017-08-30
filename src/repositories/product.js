@@ -3,42 +3,42 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 
-exports.get = () => {
-    return Product
+exports.get = async() => {
+    return await Product
     .find({
         active:true
-    }, 'title price slug')
+    }, 'title price slug');
 }
 
-exports.getBySlug = (slug) => {
-    return Product
+exports.getBySlug = async(slug) => {
+    return await Product
     .findOne({
         slug: req.params.slug,
         active:true
     }, 'title price slug')
 }
 
-exports.getByTag = (tag) => {
-    return Product
+exports.getByTag = async(tag) => {
+    return await Product
     .find({
         tags: tag,
         active:true
     }, 'title price slug tags')
 }
 
-exports.getById = (id) => {
-    return Product
+exports.getById = async(id) => {
+    return await Product
     .findById(id)
 }
 
-exports.create = (data) => {
+exports.create = async(data) => {
     var product = new Product(data);
-    return product.save();
+    return await product.save();
 };
 
 
-exports.update = (id, data) => {
-    return Product
+exports.update = async(id, data) => {
+    return await Product
         .findByIdAndUpdate(id,{
             $set:{
                 title:data.title,
@@ -49,7 +49,7 @@ exports.update = (id, data) => {
         });
 };
   
-exports.remove = (id) => {
-    return Product
+exports.remove = async(id) => {
+    return await Product
         .findByIdAndRemove(id);
 };

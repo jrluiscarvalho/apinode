@@ -1,52 +1,46 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const Product = mongoose.model('Product');  
 const ValidatorContract = require('../validators/fluid-validators');
 const repository = require('../repositories/product');
 
 exports.get = (req, res, next) => {
-    repository
-        .get()
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);        
+    try {
+        const data = await repository.get();
+        res.status(200).send(data);
+    }catch(e){
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição'
         });
+    }
+    
 }
 
 exports.getBySlug = (req, res, next) => {
-    repository
-        .getBySlug(req.params.slug)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);        
-        });
+    try{
+        const data = await repository.getBySlug(req.params.slug);
+        res.status(200).send(data);
+    }catch(e){
+        res.status(400).send(e);        
+    }
 }
 
 exports.getByTag = (req, res, next) => {
-    repository
-        .getByTag(req.params.tag)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);        
-        });
+    try{
+        const data = await repository.getByTag(req.params.tag);
+        res.status(200).send(data);
+    }catch(e){
+        res.status(400).send(e);
+    }
 }
 
 exports.getById = (req, res, next) => {
-    repository
-        .getById(req.params.id)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);        
-        });
+    try{
+        const data = await repository.getById(req.params.id);
+        res.status(200).send(data);
+    }catch(e){
+        res.status(400).send(e);
+    }
+
 }
 
 exports.post = (req, res, next) => {
@@ -59,51 +53,44 @@ exports.post = (req, res, next) => {
         res.status(400).send(contract.errors()).end();
         return;
     }
-
-    repository
-        .create(req.body)
-        .then(x=>{
-            res.status(201).send({message: 'Produto cadastrado com sucesso'});
-        })
-        .catch(e => {
-            res.status(400).send({
-                message: 'Falha ao cadastrar produto', 
-                data:e
-            });
-        });
     
+    try{
+        const data = await repository.repository.create(req.body);
+        res.status(201).send({message: 'Produto cadastrado com sucesso'});
+    }catch(e){
+        res.status(400).send({
+            message: 'Falha ao cadastrar produto', 
+            data:e
+        });
+
+    }
 };
 
 
 exports.put = (req,res,next) => {
-    repository
-        .update(req.params.id, req.body)        
-        .then(x=>{
-            res.status(200).send({
-                message: 'Produto atualizado com sucesso'
-            });
-        })
-        .catch(e => {
-            res.status(400).send({
-                message: 'Falha ao atualizar produto', 
-                data:e
-            });
+    try{
+        const data = await repository.update(req.params.id, req.body);
+        res.status(200).send({
+            message: 'Produto atualizado com sucesso'
         });
-
+    }catch(e){
+        res.status(400).send({
+            message: 'Falha ao atualizar produto', 
+            data:e
+        });
+    }
 };
-  
+
 exports.delete = (req, res, next) => {
-    repository
-        .remove(req.body.id)
-        .then(x=>{
-            res.status(200).send({
-                message: 'Produto removido com sucesso'
-            });
-        })
-        .catch(e => {
-            res.status(400).send({
-                message: 'Falha ao remover produto', 
-                data:e
-            });
+    try{
+        const data = await repository.remove(req.body.id)
+        res.status(200).send({
+            message: 'Produto removido com sucesso'
         });
+    }catch(e){
+        res.status(400).send({
+            message: 'Falha ao remover produto', 
+            data:e
+        });
+    }
 };
