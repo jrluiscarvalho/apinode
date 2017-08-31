@@ -23,14 +23,14 @@ const schema = new Schema({
         enum:['created', 'done'],
         default: 'created'
     },
-    item:[{
+    items:[{
         quantity:{
-            type:number,
+            type:Number,
             required:true,
             default:1
         },
         price:{
-            type:number,
+            type:Number,
             required:true
         },
         product:{
@@ -41,4 +41,6 @@ const schema = new Schema({
     
 });
 
-module.exports = mongoose.model('Customer', schema);
+
+
+module.exports = mongoose.model('Order', schema);

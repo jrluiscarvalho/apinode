@@ -3,7 +3,7 @@
 const ValidatorContract = require('../validators/fluid-validators');
 const repository = require('../repositories/product');
 
-exports.get = (req, res, next) => {
+exports.get = async(req, res, next) => {
     try {
         const data = await repository.get();
         res.status(200).send(data);
@@ -15,7 +15,7 @@ exports.get = (req, res, next) => {
     
 }
 
-exports.getBySlug = (req, res, next) => {
+exports.getBySlug = async(req, res, next) => {
     try{
         const data = await repository.getBySlug(req.params.slug);
         res.status(200).send(data);
@@ -24,7 +24,7 @@ exports.getBySlug = (req, res, next) => {
     }
 }
 
-exports.getByTag = (req, res, next) => {
+exports.getByTag = async(req, res, next) => {
     try{
         const data = await repository.getByTag(req.params.tag);
         res.status(200).send(data);
@@ -33,7 +33,7 @@ exports.getByTag = (req, res, next) => {
     }
 }
 
-exports.getById = (req, res, next) => {
+exports.getById = async(req, res, next) => {
     try{
         const data = await repository.getById(req.params.id);
         res.status(200).send(data);
@@ -43,7 +43,7 @@ exports.getById = (req, res, next) => {
 
 }
 
-exports.post = (req, res, next) => {
+exports.post = async(req, res, next) => {
     let contract = new ValidatorContract();
     contract.hasMinLen(req.body.title, 3, 'O título deve conter pelo menos 3 caracteres');
     contract.hasMinLen(req.body.slug, 3, 'O título deve conter pelo menos 3 caracteres');
@@ -55,7 +55,7 @@ exports.post = (req, res, next) => {
     }
     
     try{
-        const data = await repository.repository.create(req.body);
+        const data = await repository.create(req.body);
         res.status(201).send({message: 'Produto cadastrado com sucesso'});
     }catch(e){
         res.status(400).send({
@@ -67,7 +67,7 @@ exports.post = (req, res, next) => {
 };
 
 
-exports.put = (req,res,next) => {
+exports.put = async(req,res,next) => {
     try{
         const data = await repository.update(req.params.id, req.body);
         res.status(200).send({
@@ -81,7 +81,7 @@ exports.put = (req,res,next) => {
     }
 };
 
-exports.delete = (req, res, next) => {
+exports.delete = async(req, res, next) => {
     try{
         const data = await repository.remove(req.body.id)
         res.status(200).send({
