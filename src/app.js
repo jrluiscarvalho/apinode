@@ -7,6 +7,7 @@ const config = require('./config');
 
 const app = express();
 const router = express.Router();
+mongoose.Promise = global.Promise;
 mongoose.connect(config.connectionString);
 
 const Product = require('./models/product');
